@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tabla de Horarios</title>
+</head>
+<body>
+    <h1>Horarios para {{ fecha['fecha'] }}</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Horario</th>
+                <th>Capacidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for horario in horarios %}
+                <tr>
+                    <td>{{ horario['horario'] }}</td>
+                    <td>{{ horario['capacidad'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="/">Volver a la lista de fechas</a>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cliente</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        input {
+            margin-bottom: 16px;
+            padding: 8px;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            margin-top: 16px;
+            text-decoration: none;
+            color: #3498db;
+            cursor: pointer;
+        }
+
+        a:hover {
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Editar Cliente</h1>
+
+        <form method="POST">
+            <label for="horario">Horario:</label>
+            <input type="text" name="horario" value="{{ cliente['horario'] }}">
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" value="{{ cliente['nombre'] }}">
+
+            <label for="cantidad">Cantidad:</label>
+            <input type="text" name="cantidad" value="{{ cliente['cantidad'] }}">
+
+            <label for="telefono">Teléfono:</label>
+            <input type="text" name="telefono" value="{{ cliente['telefono'] }}">
+
+            <input type="hidden" name="status" value="{{ cliente['status'] }}">
+
+            <input type="submit" value="Guardar Cambios">
+        </form>
+
+        <a href="{{ url_for('ver_tabla', date_id=cliente['fecha_id'], fecha_nombre=fecha_nombre) }}">Volver a la tabla de clientes</a>
+    </div>
+</body>
+</html>

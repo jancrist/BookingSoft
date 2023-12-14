@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear o Seleccionar Fecha</title>
+    <!-- Agregar DataTables.js y el estilo CSS -->
+<!-- Agregar DataTables.js y el estilo CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="static/css/index.css"> <!-- Agrega tu archivo CSS personalizado aquí -->
+
+<!-- Agregar jQuery y jQuery UI -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/i18n/jquery-ui-i18n.min.js"></script>
+<!-- Agregar jQuery UI CSS (para el Datepicker) -->
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<!-- Agregar DataTables.js -->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+      $(document).ready(function() {
+    $.datepicker.setDefaults($.datepicker.regional['es']); // Configura el idioma en español
+    $("#datepicker").datepicker({
+        dateFormat: "yy-mm-dd",
+        onSelect: function(dateText) {
+            $("#datepicker").val(dateText);
+        }
+    });
+});
+    </script>
+</head>
+<body>
+    <header>
+        <img src="static/logo.png" alt="Logo de Calendario Vuela">
+        <h1>Calendario</h1>
+    </header>
+    
+    <div class="container">
+        <div class="form-container">
+            <button id="crearFechaBtn">+ Crear Fecha</button>
+            <form id="crearFechaForm" class="crear-fecha-form" method="POST" action="/crear_fecha">
+                <div class="input-group">
+                    <label for="fecha">Crear Nueva Fecha:</label>
+                    <input type="text" id="datepicker" name="fecha" placeholder="Selecciona una fecha" readonly>
+                </div>
+                <input type="submit" value="Confirmar Creación">
+            </form>
+        </div>
+        <section>
+            
+            <table id="fechaTable" class="display">
+                <thead>
+                    <tr>
+                        <th>Año</th>
+                        <th>Fecha</th>
+                        <th>Mes</th>
+                        <th>Dia</th>
+                        <th>Total Cantidad</th>
+                        <th>Disponibles</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                        <th style="display:none;">AñoMes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for date in dates %}
+                    <tr>
+                        <td>{{ date['fecha'].split('_')[0][:4] }}</td>
+                        <td>{{ date['fecha'].split('_')[0][8:] }}</td>
+                        <td>{{ date['nombre_mes'] }}</td>
+                        <td>{{ date['nombre_dia'] }}</td>
+                        <td>{% if date['total_cantidad'] is not none %}{{ date['total_cantidad'] }}{% endif %}</td>
+                        <td>{% if date['disponibles'] is not none %}{{ date['disponibles'] }}{% endif %}</td>
+                        <td class="estado {{ 'CERRADO' if date['status'] == 'CERRADO' else '' }}">{{ date['status'] }}</td>
+                        <td class="action-buttons">
+                            <form method="GET" action="/fecha/{{ date['id'] }}">
+                                <button type="submit">Abrir</button>
+                            </form>
+                            <form method="POST" action="/eliminar_fecha/{{ date['id'] }}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta fecha?');">
+                                <button type="submit" class="delete-btn">Eliminar</button>
+                            </form>
+                            <a href="/editar_fecha/{{ date['id'] }}">
+                                <button class="custom-button custom-state-button">Estado</button>
+                            </a>
+                        </td>
+                        
+                        <td style="display:none;">{{ date['fecha'].split('_')[0] }}{{ date['fecha'].split('_')[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#fechaTable').DataTable({
+                "order": [[4, 'asc']], // Ordenar por la columna oculta "AñoMes"
+                "pageLength": 25
+            });
+        });
+    </script>
+    <script>
+
+     // JavaScript para mostrar/ocultar el formulario al hacer clic en el botón
+const crearFechaBtn = document.getElementById("crearFechaBtn");
+const crearFechaForm = document.getElementById("crearFechaForm");
+
+crearFechaBtn.addEventListener("click", function() {
+    // Mostrar u ocultar el formulario al hacer clic en el botón
+    if (crearFechaForm.style.display === "none" || crearFechaForm.style.display === "") {
+        crearFechaForm.style.display = "block";
+    } else {
+        crearFechaForm.style.display = "none";
+    }
+});
+
+    </script>
+</body>
+</html>

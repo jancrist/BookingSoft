@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tabla de Clientes</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Agrega este enlace a tu HTML -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-6Hj6a4V7eE5j9CYQzr4jFHYbUI0GSgZRnbu2IsXp4P1e8Cj+w3uIv7kE2wzX5q+iC+0n5zPIbMxcS+a5F545EkA==" crossorigin="anonymous" />
+
+    <style>
+    #links-container {
+    text-align: center; /* Centra el contenido horizontalmente */
+    margin-top: 20px; /* Ajusta el espacio superior según sea necesario */
+  }
+
+  /* Estilo para el botón de WhatsApp */
+  .whatsapp-button {
+    background-color: #25D366; /* Color verde de WhatsApp */
+    color: #fff; /* Color del texto */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: 20px; /* Ajusta el espacio superior según sea necesario */
+  }
+
+  .whatsapp-icon {
+    margin-right: 8px;
+  }
+         /* Estilo para el contenedor principal */
+    .content {
+        max-width: 800px; /* Cambia este valor según tus necesidades */
+        margin: 0 auto; /* Centra el contenido horizontalmente */
+    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        a {
+            text-decoration: none;
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Estilos para el contenedor de la descripción */
+        .descripcion {
+            background-color: #f9f9f9; /* Color de fondo */
+            border: 1px solid #ccc; /* Borde del contenedor */
+            border-radius: 5px; /* Borde redondeado */
+            padding: 10px; /* Espaciado interno */
+        }
+
+        /* Estilos para el textarea */
+        #descripcionText {
+            max-width: 760px;
+            width: 100%; /* Ancho completo del contenedor */
+            padding: 8px; /* Espaciado interno */
+            border: 1px solid #ccc; /* Borde del textarea */
+            border-radius: 3px; /* Borde redondeado */
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            var horarioRows = {};
+
+            // Agrupar clientes con el mismo horario
+            $("table tbody tr").each(function() {
+                var horario = $(this).find("td:first-child").text();
+                if (horarioRows[horario]) {
+                    horarioRows[horario].push($(this));
+                } else {
+                    horarioRows[horario] = [$(this)];
+                }
+            });
+
+            // Ocultar horario en las filas siguientes
+            $.each(horarioRows, function(horario, rows) {
+                for (var i = 1; i < rows.length; i++) {
+                    rows[i].find("td:first-child").html("");
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Obtener el elemento del textarea
+            var descripcionTextarea = $("#descripcionText");
+
+            // Función para cargar la descripción desde el servidor
+            function cargarDescripcionDesdeServidor() {
+                $.ajax({
+                    url: '/obtener_descripcion/{{ date_id }}', // Reemplaza esto con la URL adecuada en tu servidor
+                    type: 'GET',
+                    success: function(response) {
+                        // Mostrar la descripción recuperada en el textarea
+                        descripcionTextarea.val(response.descripcion);
+                    },
+                    error: function() {
+                        // Manejar errores si la solicitud al servidor falla
+                        console.error('Error al obtener la descripción');
+                    }
+                });
+            }
+
+            // Llamar a la función para cargar la descripción desde el servidor al cargar la página
+            cargarDescripcionDesdeServidor();
+
+            // Detectar cambios en el textarea
+            descripcionTextarea.on("input", function() {
+                // Obtener el valor actual del textarea
+                var nuevaDescripcion = descripcionTextarea.val();
+
+                // Guardar la nueva descripción en el almacenamiento local (opcional)
+                localStorage.setItem('descripcion', nuevaDescripcion);
+
+                // Enviar la nueva descripción al servidor
+                // Enviar la nueva descripción al servidor
+$.ajax({
+    url: '/guardar_descripcion/{{ date_id }}',
+    type: 'POST',
+    data: JSON.stringify({ descripcion: nuevaDescripcion }),  // Asegúrate de incluir JSON.stringify
+    contentType: 'application/json',  // Establece el tipo de contenido como JSON
+    success: function(response) {
+        // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
+        console.log('Descripción guardada con éxito');
+    },
+    error: function() {
+        // Manejar errores si la solicitud al servidor falla
+        console.error('Error al guardar la descripción');
+    }
+});
+
+            });
+        });
+    </script>
+    <script>
+    // Obtén el botón y la nota por sus IDs
+    var botonMostrarNota = document.getElementById("mostrar-nota-bloquear-horarios");
+    var notaBloquearHorarios = document.getElementById("nota-bloquear-horarios");
+
+    // Agrega un controlador de eventos para el clic en el botón
+    botonMostrarNota.addEventListener("click", function() {
+        // Verifica si la nota está visible actualmente
+        if (notaBloquearHorarios.style.display === "none" || notaBloquearHorarios.style.display === "") {
+            // Si está oculta, muéstrala
+            notaBloquearHorarios.style.display = "block";
+        } else {
+            // Si está visible, ocúltala
+            notaBloquearHorarios.style.display = "none";
+        }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Manejar cambios en el estado (status) de los clientes
+        $("select[name='status']").on("change", function() {
+            // Obtener el nuevo estado seleccionado
+            var nuevoEstado = $(this).val();
+            // Obtener el ID del cliente asociado
+            var clienteId = $(this).data('cliente-id');
+
+            // Enviar el nuevo estado al servidor
+            $.ajax({
+                url: '/actualizar_estado_cliente/' + clienteId,
+                type: 'POST',
+                data: { status: nuevoEstado },
+                success: function(response) {
+                    // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
+                    console.log('Estado del cliente actualizado con éxito');
+                },
+                error: function() {
+                    // Manejar errores si la solicitud al servidor falla
+                    console.error('Error al actualizar el estado del cliente');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+            // Función para cargar dinámicamente los valores de estado en el menú desplegable
+            function cargarValoresEstado() {
+                // Obtener el menú desplegable por su nombre
+                var dropdowns = $("select[name='status']");
+
+                // Iterar sobre cada menú desplegable y agregar opciones desde el HTML
+                dropdowns.each(function() {
+                    // Guardar las opciones específicas que están en el HTML
+                    var opcionesEspecificas = $(this).children();
+
+                    // Limpiar las opciones existentes
+                    $(this).empty();
+
+                    // Agregar las opciones específicas nuevamente
+                    $(this).append(opcionesEspecificas);
+                });
+            }
+
+            // Llamar a la función para cargar los valores de estado al cargar la página
+            cargarValoresEstado();
+
+            // ... (resto del código)
+        });
+</script>
+</head>
+<body>
+    <div class="content">
+    <!-- Título con la fecha formateada -->
+    <h1>{{ fecha_formateada }}</h1>
+
+<!-- Formulario para la descripción -->
+<form method="POST" action="/guardar_descripcion/{{ date_id }}">
+    <div class="descripcion">
+        <!-- Textarea para la descripción -->
+        <textarea id="descripcionText" name="descripcion" placeholder="Desde aqui puedes escribir informacion reelevante sobre el dia de actividad..."></textarea>
+    </div>
+</form>
+
+
+    <!-- Tabla de Clientes -->
+    <table>
+        <thead>
+            <tr>
+                <th>Horario</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Teléfono</th>
+                <th>Status</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Verificar si la lista de clientes está vacía -->
+            {% if clients %}
+                {% set current_horario = '' %}
+                {% for client in clients|sort(attribute='horario') %}
+                    {% if current_horario != client['horario'] %}
+                        {% if current_horario != '' %}
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <td>{{ client['horario'] }}</td>
+                            <td>{{ client['nombre'] }}</td>
+                            <td>{{ client['cantidad'] }}</td>
+                            <td>{{ client['telefono'] }}</td>
+                            <td>
+                                <!-- Campo dropdown para modificar el status -->
+                                <select name="status" data-cliente-id="{{ client['id'] }}">
+                                    <option value="Confirmado" {% if client['status'] == 'Confirmado' %}selected{% endif %}>Confirmado</option>
+                                    <option value="Retrasado" {% if client['status'] == 'Retrasado' %}selected{% endif %}>Retrasado</option>
+                                    <option value="Programado" {% if client['status'] == 'Programado' %}selected{% endif %}>Programado</option>
+                                    <option value="S/ Novedad" {% if client['status'] == 'S/ Novedad' %}selected{% endif %}>S/ Novedad</option>
+                                    <option value="Cancelo/Reprogramo" {% if client['status'] == 'Cancelo/Reprogramo' %}selected{% endif %}>Cancelo/Reprogramo</option>
+                                </select>
+                                
+                            </td>
+                            <td>
+                                <a href="{{ url_for('editar_cliente', cliente_id=client['id']) }}">Editar</a>
+                            </td>
+                        </tr>
+                        {% set current_horario = client['horario'] %}
+                    {% else %}
+                        <td>{{ client['nombre'] }}</td>
+                        <td>{{ client['cantidad'] }}</td>
+                        <td>{{ client['telefono'] }}</td>
+                        <td>
+                            <!-- Campo dropdown para modificar el status -->
+                            <select name="status" data-cliente-id="{{ client['id'] }}">
+                                <option value="Confirmado" {% if client['status'] == 'Confirmado' %}selected{% endif %}>Confirmado</option>
+                                <option value="Retrasado" {% if client['status'] == 'Retrasado' %}selected{% endif %}>Retrasado</option>
+                                <option value="S/ Novedad" {% if client['status'] == 'S/ Novedad' %}selected{% endif %}>S/ Novedad</option>
+                               
+                            </select>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('editar_cliente', cliente_id=client['id']) }}">Editar</a>
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            <!-- Mensaje cuando no hay clientes agendados -->
+            {% else %}
+                <tr>
+                    <td colspan="6">No hay clientes agendados.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <!-- Enlaces para crear nuevos clientes y volver a la lista de fechas -->
+    
+   <a href="{{ url_for('crear_cliente', date_id=date_id) }}">Añadir personalizado</a> 
+    <a href="/">Volver a la lista de fechas</a>
+    <a href="/consultar_horarios">Crear Nuevo Cliente</a>
+    <button class="whatsapp-button" onclick="notificarClientes()">
+        <i class="fab fa-whatsapp whatsapp-icon"></i> Notificar clientes
+      </button>
+    
+    
+</div>
+<!-- Botón de WhatsApp -->
+<div id="logs-container">
+    
+
+</div>
+
+
+
+<script>
+    function notificarClientes() {
+        // Obtener la URL actual
+        var url = window.location.href;
+
+        // Extraer el valor del parámetro existente "fecha_id"
+        var match = url.match(/\/fecha\/(\d+)/);
+        var fechaId = match ? match[1] : null;
+
+        // Verificar si se encontró el valor
+        if (fechaId !== null) {
+            // Construir el objeto de datos para enviar con la solicitud POST
+            var data = { id: fechaId };
+
+            // Realizar la solicitud POST con AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/enviar_mensajes", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    alert(response.mensaje);  // Mostrar el mensaje de la respuesta
+                } else {
+                    console.error('Error en la solicitud POST');
+                }
+            };
+
+            xhr.send(JSON.stringify(data));
+        } else {
+            console.error('No se encontró el parámetro "fecha_id" en la URL');
+        }
+    }
+</script>
+</body>
+</html>

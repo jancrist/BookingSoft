@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Estado de Fecha</title>
+    <!-- Agrega tus enlaces a CSS si es necesario -->
+</head>
+<body>
+    <h1>Editar Estado de Fecha</h1>
+    <!-- Agregar el formulario para editar el estado -->
+<!-- Agregar el formulario para editar el estado -->
+<form method="POST" action="/editar_status_index/{{ date['id'] }}">
+    <label for="nuevo_status">Nuevo Estado:</label>
+    <input type="text" id="nuevo_status" name="nuevo_status" placeholder="Nuevo Estado" value="{{ estado_actual }}" required>
+    <button type="submit">Editar Estado</button>
+</form>
+
+
+</body>
+</html>

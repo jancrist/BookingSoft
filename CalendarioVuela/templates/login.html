@@ -1,0 +1,17 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+</head>
+<body>
+    <h2>Iniciar sesión</h2>
+    <form method="POST" action="{{ url_for('login') }}">
+        <p>Nombre de usuario:<br><input type="text" name="username" required></p>
+        <p>Contraseña:<br><input type="password" name="password" required></p>
+        <p><input type="submit" value="Iniciar sesión"></p>
+    </form>
+</body>
+</html>

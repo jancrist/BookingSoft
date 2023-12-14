@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Horarios</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Jnujsl5+z0I5t9z5l6Bd5pMy5J5ACJC/1BA5s5n5Sekftr" crossorigin="anonymous">
+    <style>
+        /* Estilos originales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .card {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+  /* Ajusta el ancho de los campos de entrada y los select */
+.card input[type="text"],
+.card input[type="number"],
+.card input[type="tel"], /* Agregamos el tipo "tel" para el campo de teléfono */
+.card input[type="text"][name="fecha_nombre"], /* Añadimos una regla específica para el campo de fecha */
+.card select,
+.card button {
+    width: 375px; /* Cambia esto a un valor específico, por ejemplo, "300px" o "15rem" */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    
+}
+
+.card button {
+    
+    background-color: #FFA500;
+    color: white;
+}
+        .card input[type="text"]:focus,
+        .card input[type="number"]:focus,
+        .card select:focus {
+            border-color: #FFA500;
+            outline: none;
+        }
+
+        .card input[type="text"]:invalid,
+        .card input[type="number"]:invalid {
+            border-color: #dc3545;
+        }
+
+        /* Ajusta el ancho de todos los elementos dentro de la tarjeta en pantallas grandes */
+
+
+
+/* Establece los estilos adicionales para todos los elementos <input> dentro de la tarjeta */
+.card input {
+    width: 375px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+.card button:hover {
+    background-color: #0056b3;
+}
+
+        #horarios-libres {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        #mensaje-exito {
+            text-align: center;
+            color: green;
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* Estilos para hacer responsive */
+        /* Utiliza Flexbox para que los elementos dentro de la tarjeta tengan el mismo ancho */
+        .card form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media screen and (max-width: 600px) {
+    .card * {
+        width: 100%; /* Cambia esto a un valor específico, por ejemplo, "300px" o "15rem" */
+        min-width: 400px; /* Establece el ancho mínimo de 400px */
+    }
+
+    .card input[type="text"],
+    .card input[type="number"],
+    .card input[type="tel"],
+    .card input[type="text"][name="fecha_nombre"],
+    .card select {
+        width: 100%; /* Cambia esto a un valor específico, por ejemplo, "300px" o "15rem" */
+        min-width: 400px; /* Establece el ancho mínimo de 400px */
+    }
+    .logo {
+        width: 100px;
+        height: 80px;
+    }
+}
+
+
+        /* Estilos para el logo en la tarjeta izquierda */
+        .logo {
+            width: 130px; /* Tamaño del logo */
+            height: 100px; /* Tamaño del logo */
+            margin-bottom: 10px; /* Margen inferior */
+        }
+/* Establece el ancho para el elemento select con el id "horarios-libres" */
+#horarios-libres {
+    width: 375px; /* Cambia esto a un valor específico, como "300px" o "15rem" */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box; /* Esto asegura que el ancho incluye el relleno y el borde */
+}
+
+
+/* Estilo para el mensaje de reserva */
+.reserva-mensaje {
+    font-size: 14px;
+    color: #FFA500;
+    margin-top: 10px;
+}
+
+    </style>
+</head>
+<body>
+    
+    <h1>Reserva tu visita</h1>
+    <div class="card">
+        <form id="consulta-form">
+            
+            <input type="hidden" id="nombre" name="nombre" required class="form-select">
+
+            
+            <input type="hidden" id="telefono" name="telefono" required class="form-select">
+
+            <label for="cantidad">Cantidad de Participantes:</label>
+
+            <div class="input-group">
+                <select id="cantidad" name="cantidad" class="form-select">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            
+<!-- Agrega el mensaje para reservas de 7 participantes o más -->
+<p class="reserva-mensaje">Para reservas de 7 participantes o más, envianos un mensaje</p>
+
+
+
+
+            
+            <label for="fecha">Fechas con disponibilidad:</label>
+            <input type="text" id="fecha" name="fecha_nombre" required class="form-control">
+
+            <button type="button" class="btn btn-primary" onclick="consultarHorariosLibres()">Consultar Horarios Libres</button>
+        </form>
+
+        <h2>Horarios disponibles:</h2>
+        <select id="horarios-libres" class="form-select"></select>
+
+        <!-- Botón de confirmación -->
+        <button type="button" class="btn btn-primary" onclick="redirigirAFormularioConsultaDatos()">Confirmar Selección</button>
+
+        <!-- Mensaje de éxito (inicialmente oculto) -->
+        <p id="mensaje-exito">Cliente creado con éxito.</p>
+    </div>
+    <script>
+        // Inicializar flatpickr para seleccionar horas
+        flatpickr("#hora", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+        });
+
+        // Resto del código JavaScript aquí
+    </script>
+    <script>
+        let cantidad = 1; // Valor inicial
+    
+        function sumarCantidad() {
+            if (cantidad < 6) { // Verifica el límite máximo de 6 participantes
+                cantidad++;
+                actualizarCantidad();
+            }
+        }
+    
+        function restarCantidad() {
+            if (cantidad > 1) { // Verifica el límite mínimo de 1 participante
+                cantidad--;
+                actualizarCantidad();
+            }
+        }
+    
+        function actualizarCantidad() {
+            document.getElementById("cantidad").value = cantidad;
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Función para cargar las fechas disponibles desde la API
+
+        function redirigirAFormularioConsultaDatos() {
+    const cantidad = encodeURIComponent(document.getElementById("cantidad").value);
+    const fecha = encodeURIComponent(document.getElementById("fecha").value); // Codificar fecha
+    const horario = encodeURIComponent(document.getElementById("horarios-libres").value); // Codificar horario
+
+    // Redirige a la página con los datos codificados en la URL
+    window.location.href = `/formulario_consulta_datos?fecha=${fecha}&horario=${horario}&cantidad=${cantidad}`;
+}
+        function cargarFechasDisponibles() {
+            fetch('/api/fechas', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const selectFecha = document.getElementById('fecha');
+                selectFecha.innerHTML = ''; // Limpiar resultados anteriores
+
+                // Filtrar las fechas disponibles con estado 'Abierto'
+                const fechasAbiertas = data.filter(fecha => fecha.status === 'Abierto');
+
+                // Crear un arreglo de fechas habilitadas en el formato "AAAA-MM-DD"
+                const fechasHabilitadas = fechasAbiertas.map(fechaDisponible => fechaDisponible.fecha);
+
+                // Inicializar flatpickr con las fechas habilitadas
+                flatpickr("#fecha", {
+                    dateFormat: "Y-m-d",
+                    minDate: "today",
+                    enable: fechasHabilitadas,
+                });
+
+                fechasAbiertas.forEach(fechaDisponible => {
+                    const option = document.createElement('option');
+                    option.value = fechaDisponible.fecha;
+                    option.text = fechaDisponible.fecha;
+                    selectFecha.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener las fechas:', error);
+            });
+        }
+
+        // Función para consultar horarios libres
+        function consultarHorariosLibres() {
+            const nombre = document.getElementById("nombre").value;
+            const telefono = document.getElementById("telefono").value;
+            const cantidad = document.getElementById("cantidad").value;
+            const fechaNombre = document.getElementById("fecha").value; // Usamos el valor de fecha como fecha_nombre
+
+            // Llamada a la API para obtener horarios libres según la fecha y cantidad
+            fetch(`/api/clientes/resta_cantidad/${fechaNombre}`, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const horariosLibres = document.getElementById("horarios-libres");
+                horariosLibres.innerHTML = ''; // Limpiar resultados anteriores
+
+                for (const horario in data) {
+                    if (data[horario][fechaNombre] >= cantidad || data[horario]["Disponible"] >= cantidad) {
+                        const option = document.createElement("option");
+                        option.value = horario;
+                        option.textContent = horario;
+                        horariosLibres.appendChild(option);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        
+
+        // Llama a la función para cargar las fechas disponibles al cargar la página
+        window.addEventListener('load', cargarFechasDisponibles);
+    </script>
+</body>
+</html>

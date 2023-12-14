@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Estado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        select, input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        select {
+            background-color: #fff;
+            color: #333;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Editar Estado</h1>
+    <form method="POST" action="/editar_fecha/{{ date_id }}">
+        <label for="status">Estado:</label>
+        <select id="status" name="status">
+            <option value="Abierto" {% if status == 'ABIERTO' %}selected{% endif %}>Abierto</option>
+            <option value="CERRADO" {% if status == 'CERRADO' %}selected{% endif %}>CERRADO</option>
+        </select>
+        <input type="submit" value="Guardar Cambios">
+    </form>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Reserva</title>
+    <!-- Agrega los enlaces a Bootstrap CSS y JS aquí -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario de Reserva</h1>
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="fecha">Selecciona una fecha:</label>
+                <select class="form-control" id="fecha" name="fecha" required>
+                    <option value="" disabled selected>Elige una fecha</option>
+                    <!-- Las fechas disponibles se cargarán aquí mediante JavaScript -->
+                </select>
+            </div>
+            
+            <!-- Resto de los campos del formulario -->
+            <div class="form-group">
+                <label for="horario">Horario:</label>
+                <input type="text" class="form-control" name="horario" id="horario" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" name="nombre" id="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="cantidad">Cantidad:</label>
+                <input type="text" class="form-control" name="cantidad" id="cantidad" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" class="form-control" name="telefono" id="telefono" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Estado:</label>
+                <input type="text" class="form-control" name="status" id="status" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Reservar</button>
+        </form>
+    </div>
+
+    <!-- Agrega jQuery y el script de JavaScript para cargar las fechas disponibles -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        // Función para cargar las fechas disponibles desde la API
+function cargarFechasDisponibles() {
+    $.ajax({
+        url: '/api/fechas',  // Ruta de la API que obtiene las fechas
+        method: 'GET',
+        success: function(data) {
+            // Filtrar las fechas disponibles con estado 'Abierto'
+            var fechasAbiertas = data.filter(function(fecha) {
+                return fecha.status === 'Abierto';
+            });
+
+            console.log('Fechas disponibles:', fechasAbiertas);
+
+            // Llenar el dropdown con las fechas disponibles
+            var selectFecha = document.getElementById('fecha');
+            fechasAbiertas.forEach(function(fecha_disponible) {
+                var option = document.createElement('option');
+                option.value = fecha_disponible.fecha;
+                option.text = fecha_disponible.fecha;
+                selectFecha.appendChild(option);
+            });
+        },
+        error: function(error) {
+            console.error('Error al obtener las fechas:', error);
+        }
+    });
+}
+
+// Llama a la función para cargar las fechas disponibles al cargar la página
+$(document).ready(function() {
+    cargarFechasDisponibles();
+});
+    </script>
+</body>
+</html>

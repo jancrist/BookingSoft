@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cliente</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Jnujsl5+z0I5t9z5l6Bd5pMy5J5ACJC/1BA5s5n5Sekftr" crossorigin="anonymous">
+    <style>
+        /* Estilos originales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .card {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+  /* Ajusta el ancho de los campos de entrada y los select */
+.card input[type="text"],
+.card input[type="number"],
+.card input[type="tel"], /* Agregamos el tipo "tel" para el campo de teléfono */
+.card input[type="text"][name="fecha_nombre"], /* Añadimos una regla específica para el campo de fecha */
+.card select,
+.card button {
+    width: 375px; /* Cambia esto a un valor específico, por ejemplo, "300px" o "15rem" */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+
+        .card input[type="text"]:focus,
+        .card input[type="number"]:focus,
+        .card select:focus {
+            border-color: #FFA500;
+            outline: none;
+        }
+
+        .card input[type="text"]:invalid,
+        .card input[type="number"]:invalid {
+            border-color: #dc3545;
+        }
+
+        .card button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #3ec220;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .card button:hover {
+            background-color: #00b324;
+        }
+
+        #horarios-libres {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        #mensaje-exito {
+            text-align: center;
+            color: green;
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* Estilos para hacer responsive */
+        /* Utiliza Flexbox para que los elementos dentro de la tarjeta tengan el mismo ancho */
+        .card form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Ajusta el tamaño de los campos de entrada para dispositivos móviles */
+        @media screen and (max-width: 600px) {
+            .card {
+                max-width: 100%;
+            }
+
+            .card input[type="text"],
+            .card input[type="number"],
+            .card input[type="tel"],
+            .card input[type="text"][name="fecha_nombre"],
+            .card select {
+                width: 100%;
+            }
+            .logo {
+                width: 100px;
+                height: 80px;
+            }
+        }
+        /* Estilos para el logo en la tarjeta izquierda */
+        .logo {
+            width: 130px; /* Tamaño del logo */
+            height: 100px; /* Tamaño del logo */
+            margin-bottom: 10px; /* Margen inferior */
+        }
+
+/* Estilos para centrar el texto en el botón */
+.volver-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff2600;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    text-align: center; /* Centra el texto horizontalmente */
+    
+}
+
+.volver-button:hover {
+    background-color: #950000;
+}
+ /* Estilos para la nota */
+ .nota-bloquear-horarios {
+            text-align: center; /* Centra el texto horizontalmente */
+            
+            color: #818181;
+            padding: 10px;
+            margin-top: 20px; /* Margen superior */
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Agendar personalizado</h1>
+    <div class="card">
+        <form method="POST" action="/crear_cliente/{{ date_id }}">
+            <label for="horario">Horario:</label>
+            <select id="horario" name="horario" required>
+                <!-- Aquí generamos las opciones de horario -->
+                <option value="">Selecciona un horario</option>
+                <!-- Generar opciones de 10:30 en adelante cada 30 minutos -->
+                <script>
+                    var select = document.getElementById("horario");
+                    var hora = 10;
+                    var minuto = 30;
+
+                    while (hora < 24) {
+                        while (minuto < 60) {
+                            var option = document.createElement("option");
+                            var horaStr = hora.toString().padStart(2, "0");
+                            var minutoStr = minuto.toString().padStart(2, "0");
+                            option.value = horaStr + ":" + minutoStr;
+                            option.textContent = horaStr + ":" + minutoStr;
+                            select.appendChild(option);
+                            minuto += 30;
+                        }
+                        hora++;
+                        minuto = 0;
+                    }
+                </script>
+            </select>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="cantidad">Cantidad:</label>
+            <input type="text" id="cantidad" name="cantidad" required>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" required>
+
+            <input type="hidden" id="status" name="status" value="Confirmado">
+
+
+
+            <button type="submit" class="btn btn-primary">Confirmar Selección</button>
+<a href="/fecha/{{ date_id }}" class="btn btn-secondary volver-button">Volver a la tabla de clientes</a>
+
+    </form>
+    <div class="nota-bloquear-horarios">
+        <p>Recuerda que para bloquear horarios, debes de introducir en Cantidad el número 10 en cada franja horaria a bloquear.</p>
+    </div>
+    </div>
+    
+
+    
+</body>
+</html>

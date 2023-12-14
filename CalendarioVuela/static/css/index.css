@@ -1,0 +1,392 @@
+/* Reset de estilos */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Fuentes */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+/* Encabezado */
+header {
+    background-color: #080808; /*Color del encabezado*/
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulario */
+.form-container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+#datepicker {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #007acc;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+input[type="submit"]:hover {
+    background-color: #0052a3;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Acciones de tabla */
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-buttons button {
+    background-color: #00b515;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons button.delete-btn {
+    background-color: #dc3545;
+}
+
+.action-buttons button:hover {
+    background-color: #048400;
+}
+
+.action-buttons button.delete-btn:hover {
+    background-color: #840000;
+}
+.custom-state-button.custom-button {
+    background-color: #007bff; /* Color de fondo azul */
+    color: #fff; /* Color del texto blanco */
+    padding: 0.5rem 1rem; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambiar el cursor al pasar el ratón */
+}
+
+.custom-state-button.custom-button:hover {
+    background-color: #0056b3; /* Cambiar el color de fondo en hover */
+}
+/* Estilo para el botón "+Crear Fecha" */
+#crearFechaBtn {
+    margin-bottom: 10px;
+    float: left; /* Posición al lado izquierdo */
+    background-color: #3498db; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    padding: 5px 10px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 3px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor al pasar por encima */
+}
+
+/* Cambiar color al pasar el mouse por encima */
+#crearFechaBtn:hover {
+    background-color: #2980b9; /* Color de fondo al pasar el mouse por encima */
+}
+
+/* Estilo para el formulario de creación de fecha */
+.crear-fecha-form {
+    display: none;
+    clear: both; /* Limpiar flotantes para que el formulario aparezca debajo del botón */
+    margin-top: 10px; /* Espacio entre el botón y el formulario */
+    border: 1px solid #ccc; /* Borde para el formulario */
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+/* Estilo para la columna de estado */
+.estado {
+    font-weight: bold;
+    color: green; /* Establecer color verde por defecto */
+}
+
+/* Cambiar el color del texto a rojo cuando el estado sea CERRADO */
+.estado.CERRADO {
+    color: red;
+}
+
+/* Ocultar la columna "Disponibles" cuando el estado sea CERRADO */
+tr.CERRADO td:nth-child(6) {
+    display: none;
+}
+
+ /* Estilos responsivos */
+ @media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-container {
+        margin-bottom: 1rem;
+    }
+
+    label {
+        font-size: 1rem;
+    }
+
+    #datepicker {
+        padding: 0.75rem;
+        width: 100%; /* Ocupar todo el ancho disponible */
+    }
+
+    input[type="submit"] {
+        padding: 0.5rem 1rem;
+    }
+
+    th, td {
+        padding: 0.75rem;
+        font-size: 0.9rem; /* Reducir el tamaño de fuente en celdas de tabla */
+    }
+}
+/* ... Tus estilos anteriores ... */
+
+/* Estilo para el grupo de entrada de fecha */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.input-group input[type="text"] {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.input-group input[type="submit"] {
+    background-color: #007acc;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.input-group input[type="submit"]:hover {
+    background-color: #0052a3;
+}
+/* Estilo para el Datepicker de jQuery UI */
+/* Estilo para el Datepicker de jQuery UI */
+.ui-datepicker {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.ui-datepicker-header {
+    background-color: #007acc;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.ui-datepicker-title {
+    font-weight: bold;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next {
+    background-color: #0052a3;
+    color: #fff;
+    border: none;
+    padding: 4px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ui-datepicker-prev:hover, .ui-datepicker-next:hover {
+    background-color: #007acc;
+}
+
+.ui-datepicker-calendar {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff; /* Cambiar el fondo a blanco */
+}
+
+.ui-datepicker-calendar th {
+    background-color: #007acc;
+    color: #fff;
+    font-weight: bold;
+    padding: 8px;
+}
+
+.ui-datepicker-calendar td {
+    padding: 6px;
+}
+
+.ui-datepicker-calendar .ui-state-default {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ui-datepicker-calendar .ui-state-default:hover {
+    background-color: #007acc;
+    color: #fff;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+    background-color: #007acc;
+    color: #fff;
+}
+
+.ui-datepicker-calendar .ui-datepicker-current-day {
+    background-color: #007acc;
+    color: #fff;
+    border-radius: 50%;
+}
+
+.ui-datepicker-calendar .ui-datepicker-unselectable {
+    color: #ccc;
+}
+
+/* Estilizar el icono del datepicker (si lo tiene) */
+#datepicker::after {
+    content: "\f073"; /* Unicode para un icono de calendario, puedes cambiarlo */
+    font-family: FontAwesome; /* Utiliza la fuente FontAwesome o la fuente de iconos que desees */
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #007acc; /* Color del icono */
+    cursor: pointer;
+}
+
+/* Cambiar el color del texto de fecha seleccionada */
+.ui-datepicker-calendar .ui-state-active {
+    background-color: #007acc; /* Color de fondo para la fecha seleccionada */
+    color: #fff; /* Color del texto para la fecha seleccionada */
+}
+
+/* Cambiar el color de fondo de las celdas de fecha al pasar el mouse */
+.ui-datepicker-calendar .ui-state-hover {
+    background-color: #f4f4f4; /* Color de fondo al pasar el mouse */
+}
+
+
+/* Estilos para la tabla DataTable */
+#fechaTable {
+    margin-top: 20px; /* Espacio superior */
+    border: 1px solid #ddd; /* Borde con color más claro */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+#fechaTable th, #fechaTable td {
+    padding: 12px 15px; /* Espaciado interno */
+    text-align: left; /* Alineación del texto a la izquierda */
+}
+
+#fechaTable th {
+    background-color: #f2f2f2; /* Color de fondo para encabezados */
+    font-weight: bold; /* Texto en negrita */
+}
+
+#fechaTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fondo de filas pares */
+}
+
+/* Añade sombra y efecto de elevación al hacer hover */
+#fechaTable tbody tr:hover {
+    background-color: #f4f4f4;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+/* Estilo para el contenedor de la tabla DataTable */
+.dataTables_wrapper {
+    margin-top: 20px; /* Espacio superior para separarlo de la tabla */
+}
+
+/* Estilo para el control "Show X entries" */
+.dataTables_length label {
+    margin-right: 10px; /* Espacio a la derecha de las etiquetas */
+}
+/* Ocultar el texto "Show [X] entries" en la tabla DataTable */
+.dataTables_length {
+    display: none;
+}
+/* Ocultar el texto "Search:" en la tabla DataTable */
+.dataTables_filter label {
+    display: none;
+}

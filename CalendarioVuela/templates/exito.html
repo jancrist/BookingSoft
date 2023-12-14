@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éxito</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .card {
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2980b9;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Cliente agregado exitosamente</h1>
+        <p>Cliente {{ cliente['nombre'] }} insertado correctamente en la fecha {{ fecha_nombre }}.</p>
+        <ul>
+            <li><strong>Horario:</strong>  {{ cliente['horario'] }}</li>
+            <li><strong>Nombre:</strong> {{ cliente['nombre'] }}</li>
+            <li><strong>Cantidad:</strong> {{ cliente['cantidad'] }}</li>
+            <li><strong>Teléfono:</strong> {{ cliente['telefono'] }}</li>
+            <li><strong>Status:</strong> {{ cliente['status'] }}</li>
+        </ul>
+
+        <a href="/">Volver a la tabla de clientes</a>
+    </div>
+</body>
+</html>
